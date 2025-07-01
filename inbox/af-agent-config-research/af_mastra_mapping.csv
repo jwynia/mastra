@@ -1,0 +1,33 @@
+Category,Subcategory,Field,Description
+Component Mapping,.af Core Components,agent_type,"String identifier (e.g., 'memgpt')"
+Component Mapping,.af Core Components,name,Agent display name
+Component Mapping,.af Core Components,description,Optional agent description
+Component Mapping,.af Core Components,system,System prompt/instructions
+Component Mapping,.af Core Components,llm_config,"Model configuration (provider, model name, parameters)"
+Component Mapping,.af Core Components,embedding_config,Embedding model settings
+Component Mapping,.af Core Components,core_memory,"List of memory blocks (personality, user info)"
+Component Mapping,.af Core Components,messages,Complete message history with metadata
+Component Mapping,.af Core Components,in_context_message_indices,Which messages are in current context
+Component Mapping,.af Core Components,tools,"Tool definitions (schema, source code, metadata)"
+Component Mapping,.af Core Components,tool_rules,Tool execution rules and constraints
+Component Mapping,.af Core Components,tool_exec_environment_variables,Environment variables for tools
+Component Mapping,.af Core Components,tags,Agent tags/labels
+Component Mapping,.af Core Components,metadata_,Additional metadata
+Component Mapping,.af Core Components,version,Schema version
+Component Mapping,.af Core Components,created_at,Creation timestamp
+Component Mapping,.af Core Components,updated_at,Last update timestamp
+Component Mapping,Mastra Agent Equivalent,name,Agent.name
+Component Mapping,Mastra Agent Equivalent,description,Agent.description
+Component Mapping,Mastra Agent Equivalent,instructions,Agent.instructions (from .af system field)
+Component Mapping,Mastra Agent Equivalent,model,Agent.model (derived from llm_config)
+Component Mapping,Mastra Agent Equivalent,tools,Agent.tools (converted from .af tools)
+Component Mapping,Mastra Agent Equivalent,memory,Agent.memory (converted from core_memory + messages)
+Component Mapping,Mastra Agent Equivalent,workflows,Not directly supported in .af
+Component Mapping,Mastra Agent Equivalent,evals,Not directly supported in .af
+Component Mapping,Mastra Agent Equivalent,voice,Not directly supported in .af
+Key Differences,Memory Management,af_approach,Explicit core_memory blocks + message history
+Key Differences,Memory Management,mastra_approach,Memory class with storage adapters
+Key Differences,Tool Definitions,af_approach,Complete tool source code + JSON schema
+Key Differences,Tool Definitions,mastra_approach,TypeScript functions with type definitions
+Key Differences,Context Management,af_approach,in_context_message_indices array
+Key Differences,Context Management,mastra_approach,Handled by memory system automatically

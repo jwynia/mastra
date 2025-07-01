@@ -1,138 +1,245 @@
-# CLAUDE.md
+# CLAUDE.md - Context Network Project
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+## Critical: Context Network is Source of Truth
 
-## Development Commands
+This project uses a Context Network for ALL planning, architecture, and coordination information. The context network location and structure are defined in `.context-network.md`.
 
-### Setup and Build
+### Your Primary Responsibilities
 
-- `pnpm setup` - Install dependencies and build CLI (required first step)
-- `pnpm build` - Build all packages (excludes examples and docs)
-- `pnpm build:packages` - Build core packages only
-- `pnpm build:core` - Build core framework package
-- `pnpm build:cli` - Build CLI and playground package
-- `pnpm build:memory` - Build memory package
-- `pnpm build:rag` - Build RAG package
-- `pnpm build:combined-stores` - Build all storage adapters
-- `pnpm build:deployers` - Build deployment adapters
-- `pnpm build:evals` - Build evaluation framework
-- `NODE_OPTIONS="--max-old-space-size=4096" pnpm build` - Build with increased memory if needed
+1. **ALWAYS check the context network FIRST** before starting any work
+2. **NEVER duplicate information** between CLAUDE.md and the context network
+3. **UPDATE the context network** as you work - don't wait until task completion
+4. **RECORD your understanding** in the context network, not just in conversation
+5. **CREATE discovery records** when finding important information in source files
 
-### Testing
+## Workflow Requirements
 
-- `pnpm dev:services:up` - Start local Docker services (required for integration tests)
-- For faster testing: Build from root, then cd to specific package and run tests there
-  ```bash
-  pnpm build  # Build from monorepo root first
-  cd packages/memory
-  pnpm test   # Much faster than running all tests
-  ```
-- `pnpm test` - Run all tests (slow, use sparingly)
-- `pnpm test:watch` - Run tests in watch mode
+### Before Starting ANY Task
 
-### Development
+```
+1. Read `.context-network.md` to locate the context network
+2. Navigate to relevant sections based on your task
+3. Create a new task entry in the context network's active tasks section
+4. Document your understanding of:
+   - What you're trying to accomplish
+   - Which existing components/systems are involved
+   - Your planned approach
+```
 
-- `pnpm dev:services:down` - Stop local Docker services
-- `pnpm typecheck` - Run TypeScript checks across all packages
-- `pnpm prettier:format` - Format code with Prettier
+### During Work
 
-## Documentation
+**Every 3-5 significant changes or discoveries:**
 
-### Documentation Locations
+1. STOP and update the context network with:
+   - What you've learned
+   - What you've changed
+   - Any new connections or dependencies discovered
+   - Questions or uncertainties that arose
 
-- **Main docs**: `docs/` directory - Contains the full documentation site built with Next.js
-- **Course content**: `docs/src/course/` - Tutorial and learning materials
-- **API reference**: Generated from code comments and exported types
-- **Package READMEs**: Each package/integration has its own README.md
-- **Development guide**: `DEVELOPMENT.md` - Setup and contribution instructions
+**When you find yourself re-reading the same files:**
 
-### Documentation Guidelines
+- This is a signal you haven't recorded your understanding
+- Create a summary in the context network immediately
 
-- Follow `.cursor/rules/writing-documentation.mdc` for writing style
-- Avoid marketing language, focus on technical implementation details
-- Examples should be practical and runnable
+**When discovering important information:**
 
-## Architecture Overview
+1. Create a discovery record with:
+   - What you found
+   - Exact file path and line numbers
+   - Why it's significant
+   - How it connects to your current task
+2. Link this discovery to relevant concept nodes
 
-Mastra is a modular AI framework built around central orchestration with pluggable components. Key architectural patterns:
+### The 3-Line Rule
 
-### Core Components
+If you read more than 3 lines of code to understand something, you MUST record:
 
-- **Mastra Class** (`packages/core/src/mastra/`) - Central configuration hub with dependency injection
-- **Agents** (`packages/core/src/agent/`) - Primary AI interaction abstraction with tools, memory, and voice
-- **Tools System** (`packages/core/src/tools/`) - Dynamic tool composition supporting multiple sources
-- **Memory System** (`packages/core/src/memory/`) - Thread-based conversation persistence with semantic recall
-- **Workflows** (`packages/core/src/workflows/`) - Step-based execution with suspend/resume capabilities
-- **Storage Layer** (`packages/core/src/storage/`) - Pluggable backends with standardized interfaces
+1. What question you were trying to answer
+2. Where you found the answer (file:lines)
+3. What the answer means in plain language
 
-### Package Structure
+### After Completing Work
 
-- **packages/** - Core framework packages (core, cli, deployer, rag, memory, evals, mcp)
-- **stores/** - Storage adapters (pg, chroma, pinecone, etc.)
-- **deployers/** - Platform deployment adapters (vercel, netlify, cloudflare)
-- **voice/** - Speech processing packages
-- **client-sdks/** - Client libraries for different platforms
-- **integrations/** - Third-party API integrations (github, firecrawl, etc.)
-- **examples/** - Demo applications
-- **auth/** - Authentication provider integrations
+1. Update all modified nodes in the context network
+2. Create/update the task completion record
+3. Document any follow-up items or discovered issues
 
-### Key Patterns
+## Context Network Update Triggers
 
-1. **Dependency Injection** - Components register with central Mastra instance
-2. **Plugin Architecture** - Pluggable storage, vectors, memory, deployers
-3. **Runtime Context** - Request-scoped context propagation for dynamic configuration
-4. **Message List Abstraction** - Unified message handling across formats
+You MUST update the context network when:
 
-### Tools and Integrations
+- Starting a new task or subtask
+- Making architectural decisions
+- Discovering new relationships between components
+- Finding bugs or issues
+- Learning how a system works
+- Planning implementation approach
+- Every 10-15 minutes of active work
+- **Finding important information in source files** (create a discovery record)
 
-- Tools are dynamically composed from multiple sources (assigned, memory, toolsets, MCP)
-- Integrations are OpenAPI-based with OAuth/API key authentication
-- MCP (Model Context Protocol) enables external tool integration
+### Create Discovery Records For:
 
-### Storage and Memory
+- **Entry points**: Where key processes begin
+- **State changes**: Where important data is modified
+- **Decisions**: Where the code chooses between alternatives
+- **Connections**: Where components interact
+- **Surprises**: Where reality differs from expectations
 
-- Pluggable storage backends with standardized interfaces
-- Memory system supports thread-based conversations, semantic recall, and working memory
-- Vector stores provide semantic search capabilities
+## What Goes Where
 
-## Development Guidelines
+### Context Network (Team Memory)
 
-### Documentation Writing
+- Architecture diagrams and decisions
+- Implementation plans and strategies
+- Task records and progress
+- System understanding and documentation
+- Research findings and explorations
+- Bug investigations and solutions
+- Design discussions and rationale
+- **Discovery records and location indexes**
 
-Follow `.cursor/rules/writing-documentation.mdc`:
+### Project Files (Build Artifacts)
 
-- Avoid marketing language ("powerful", "complete", "out-of-the-box")
-- Don't use "your needs", "production-ready", "makes it easy"
-- Focus on technical details rather than benefits
-- Write for engineers, not marketing
+- Source code
+- Configuration files
+- Tests
+- Build scripts
+- Public documentation
+- Resources used by the application
 
-### Monorepo Management
+## Information Organization Principles
 
-- Use pnpm (v9.7.0+) for package management
-- Build dependencies are managed through turbo.json
-- All packages use TypeScript with strict type checking
-- For testing: build from root first, then cd to specific package for faster iteration
+### Create Small, Focused Documents
 
-### Component Development
+**NEVER create large, monolithic documents.** Instead:
 
-- Components should integrate with central Mastra orchestration
-- Follow plugin patterns for extensibility
-- Implement standardized interfaces for storage/vector operations
-- Use telemetry decorators for observability
-- Support both sync and async operations where applicable
+- One concept = one file (atomic notes)
+- 100-300 lines maximum per document
+- Link extensively between related documents
+- Use index/hub documents to provide navigation
 
-### Testing Strategy
+### Discovery Record Format
 
-- Integration tests require Docker services (`pnpm dev:services:up`)
-- Use Vitest for testing framework
-- Test files should be co-located with source code
-- For faster development: build from root, then test individual packages
-- Mock external services in unit tests
+```markdown
+## [What You Were Looking For]
+**Found**: `path/to/file.ts:45-67`
+**Summary**: [One sentence explaining what this code does]
+**Significance**: [Why this matters for understanding the system]
+**See also**: [[related-concept]], [[another-discovery]]
+```
 
-### Common Issues
+### Maintain Specialized Indexes
 
-- Memory errors during build: Use `NODE_OPTIONS="--max-old-space-size=4096"`
-- Missing dependencies: Run `pnpm setup` first
-- Test failures: Ensure Docker services are running and build from root first
-- Type errors: Run `pnpm typecheck` to check all packages
+1. **Location Indexes** (`discoveries/locations/[component].md`):
 
+   ```markdown
+   # [Component] Key Locations
+   
+   ## Configuration Loading
+   - **What**: How config files are parsed and validated
+   - **Where**: `src/config/parser.ts:45-72`
+   - **Related**: [[config-schema]], [[validation-rules]]
+   
+   ## State Management
+   - **What**: Central state store implementation
+   - **Where**: `src/store/index.ts:12-38`
+   - **Related**: [[state-shape]], [[action-patterns]]
+   ```
+
+2. **Concept Maps** (`concepts/[concept].md`):
+
+   ```markdown
+   # [Concept Name]
+   
+   ## Definition
+   [Brief explanation]
+   
+   ## Implementations
+   - [[location-index#section]] - Where this is implemented
+   - [[example-usage]] - How it's used in practice
+   
+   ## Related Concepts
+   - [[parent-concept]] - Broader context
+   - [[sibling-concept]] - Alternative approach
+   - [[child-concept]] - Specific implementation
+   ```
+
+3. **Task Discovery Logs** (`tasks/[date]-[task]/discoveries.md`):
+
+   ```markdown
+   # Discoveries for [Task Name]
+   
+   ## Key Findings
+   1. **Config validation happens in two places**
+      - Primary: `src/config/parser.ts:45`
+      - Secondary: `src/runtime/validate.ts:23`
+      - This seems unintentional - [[tech-debt-001]]
+   ```
+
+### Linking Patterns
+
+Use consistent link types:
+
+- `[[concept]]` - Link to concept definition
+- `[[location-index#section]]` - Link to specific location
+- `[[task/discoveries]]` - Link to task-specific findings
+- `→ file.ts:line` - Direct code reference (non-linked)
+
+### Navigation Hubs
+
+Create navigation hubs at multiple levels:
+
+- Domain hubs: Overview of a functional area
+- Component hubs: Entry point for understanding a component
+- Task hubs: Central point for all task-related information
+
+### Search Optimization
+
+Name files and sections for discoverability:
+
+- Use consistent naming patterns
+- Include keywords in headers
+- Create "alias" sections for alternative terms
+- Maintain a glossary of project-specific terms
+
+### Discovery Index Maintenance
+
+Every 5-10 discoveries:
+
+1. Check if they share a theme
+2. Create or update a concept document that links them
+3. Add entries to the appropriate location index
+4. Update navigation hubs to include new findings
+
+## Prohibited Practices
+
+NEVER:
+
+- Create planning documents outside the context network
+- Wait until task completion to update the context network
+- Rely solely on reading source code without documenting understanding
+- Make architectural decisions without recording them
+- Duplicate information between CLAUDE.md and context network
+- Keep mental notes of "I saw this somewhere" without recording it
+- Create long documents explaining entire files (use focused records instead)
+- Assume you'll remember why something was important
+- Create duplicate explanations of the same code (link to existing records)
+
+## Context Network Structure Reference
+
+The context network structure is defined within the network itself. Always refer to the network's own navigation guide rather than maintaining a duplicate here.
+
+## Quick Checklist
+
+Before claiming a task is complete, verify:
+
+- [ ] Context network task entry exists and is updated
+- [ ] All architectural decisions are documented
+- [ ] Implementation approach is recorded
+- [ ] Discovered relationships are mapped
+- [ ] Discovery records created for all significant findings
+- [ ] Location indexes updated with new discoveries
+- [ ] Navigation hubs updated if needed
+- [ ] Follow-up items are noted
+- [ ] No planning documents exist outside the context network
+- [ ] All documents follow the 100-300 line limit

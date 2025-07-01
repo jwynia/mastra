@@ -36,3 +36,8 @@ serviceAccount.json
 tsup.config.bundled_*
 CLAUDE.local.md
 .claude/settings.local.json
+
+context-network/
+.context-network.md
+CLAUDE.md
+#inbox
